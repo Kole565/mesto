@@ -46,12 +46,29 @@ profileOpenButton.addEventListener('click', function () {
 	fillProfileForm();
 });
 
+cardAddButton.addEventListener('click', function () {
+	openModal(cardPopup);
+
+	updatePopupCloseButton(cardPopup);
+
+	fillCardForm();
+});
+
+
 function fillProfileForm() {
 	const formName = profilePopup.querySelector('.popup__input_type_name');
 	const formDescription = profilePopup.querySelector('.popup__input_type_description');
 
 	formName.value = profileNameElement.textContent;
 	formDescription.value = profileDescriptionElement.textContent;
+}
+
+function fillCardForm() {
+	const formName = cardPopup.querySelector('.popup__input_type_card-name');
+	const formURL = cardPopup.querySelector('.popup__input_type_url');
+
+	formName.value = '';
+	formURL.value = '';
 }
 
 function handleProfileFormSubmit(evt) {
@@ -64,22 +81,6 @@ function handleProfileFormSubmit(evt) {
 	profileDescriptionElement.textContent = job;
 
 	closeModal(profilePopup);
-}
-
-cardAddButton.addEventListener('click', function () {
-	openModal(cardPopup);
-
-	updatePopupCloseButton(cardPopup);
-
-	fillCardForm();
-});
-
-function fillCardForm() {
-	const formName = cardPopup.querySelector('.popup__input_type_card-name');
-	const formURL = cardPopup.querySelector('.popup__input_type_url');
-
-	formName.value = '';
-	formURL.value = '';
 }
 
 function handleCardFormSubmit(evt) {
