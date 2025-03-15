@@ -95,6 +95,7 @@ function createCard(cardTitle, cardImageLink) {
 	const cardTitleElement = cardElement.querySelector('.card__title');
 	const cardImageElement = cardElement.querySelector('.card__image');
 	const cardLikeButtonElement = cardElement.querySelector('.card__like-button');
+	const cardDeleteButtonElement = cardElement.querySelector('.card__delete-button');
 
 	cardTitleElement.textContent = cardTitle;
 	cardImageElement.src = cardImageLink;
@@ -102,11 +103,20 @@ function createCard(cardTitle, cardImageLink) {
 	cardLikeButtonElement.addEventListener('click', function () {
 		cardLikeButtonElement.classList.toggle('card__like-button_is-active');
 	});
+	cardDeleteButtonElement.addEventListener('click', function (e) {
+		const target = e.target;
+		const cardElement = target.closest('.card');
+
+		deleteCard(cardElement);
+	});
 
 	return cardElement;
 }
 
-// @todo: Функция удаления карточки
+function deleteCard(cardElement) {
+	cardElement.remove();
+}
+
 
 placesList = document.querySelector(".places__list")
 for (let i = 0; i < initialCards.length; i++) {
