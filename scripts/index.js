@@ -22,9 +22,6 @@ const cardURLInput = cardFormElement.querySelector('.popup__input_type_url');
 const imagePopupImageElement = imagePopup.querySelector('.popup__image');
 const imagePopupCaptionElement = imagePopup.querySelector('.popup__caption');
 
-profileFormElement.addEventListener('submit', handleProfileFormSubmit);
-cardFormElement.addEventListener('submit', handleCardFormSubmit);
-
 
 function openModal(popup) {
     popup.classList.add('popup_is-opened');
@@ -142,6 +139,9 @@ function deleteCard(cardElement) {
 	cardElement.remove();
 }
 
+
+profileFormElement.addEventListener('submit', handleProfileFormSubmit);
+cardFormElement.addEventListener('submit', handleCardFormSubmit);
 
 placesList = document.querySelector(".places__list")
 for (let i = 0; i < initialCards.length; i++) {
