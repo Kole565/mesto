@@ -94,10 +94,14 @@ function createCard(cardTitle, cardImageLink) {
 
 	const cardTitleElement = cardElement.querySelector('.card__title');
 	const cardImageElement = cardElement.querySelector('.card__image');
+	const cardLikeButtonElement = cardElement.querySelector('.card__like-button');
 
 	cardTitleElement.textContent = cardTitle;
 	cardImageElement.src = cardImageLink;
 	cardImageElement.alt = cardTitle;
+	cardLikeButtonElement.addEventListener('click', function () {
+		cardLikeButtonElement.classList.toggle('card__like-button_is-active');
+	});
 
 	return cardElement;
 }
