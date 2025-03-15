@@ -43,10 +43,10 @@ profileOpenButton.addEventListener('click', function () {
 
 	updatePopupCloseButton(profilePopup);
 
-	prefillProfileForm();
+	fillProfileForm();
 });
 
-function prefillProfileForm() {
+function fillProfileForm() {
 	const formName = profilePopup.querySelector('.popup__input_type_name');
 	const formDescription = profilePopup.querySelector('.popup__input_type_description');
 
@@ -71,10 +71,10 @@ cardAddButton.addEventListener('click', function () {
 
 	updatePopupCloseButton(cardPopup);
 
-	prefillCardForm();
+	fillCardForm();
 });
 
-function prefillCardForm() {
+function fillCardForm() {
 	const formName = cardPopup.querySelector('.popup__input_type_card-name');
 	const formURL = cardPopup.querySelector('.popup__input_type_url');
 
