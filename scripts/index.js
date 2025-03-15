@@ -109,12 +109,7 @@ function createCard(cardTitle, cardImageLink) {
 
 		updatePopupCloseButton(imagePopup);
 
-		const popupCloseButton = imagePopup.querySelector('.popup__close');
-		console.log(popupCloseButton);
-		popupCloseButton.addEventListener('click', function () {
-			console.log('Popup close');
-			closeModal(imagePopup);
-		});
+		fillImagePopup(cardTitle, cardImageLink);
 	});
 
 	cardLikeButtonElement.addEventListener('click', function () {
@@ -129,6 +124,12 @@ function createCard(cardTitle, cardImageLink) {
 	});
 
 	return cardElement;
+}
+
+function fillImagePopup(title, imageLink) {
+	imagePopupImageElement.src = imageLink
+	imagePopupImageElement.alt = title;
+	imagePopupCaptionElement.textContent = title;
 }
 
 function deleteCard(cardElement) {
