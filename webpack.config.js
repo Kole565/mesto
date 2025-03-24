@@ -1,5 +1,6 @@
 const path = require('path');    // Relative paths support
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 
 module.exports = {
@@ -23,10 +24,18 @@ module.exports = {
 				test: /\.js$/,
 				use: 'babel-loader',
 				exclude: '/node_modules/'
+			},
+			{
+				test: /\.css$/,
+
+				use: [MiniCssExtractPlugin.loader, {
+					loader: 'css-loader'
+				}]
 			}
 		]
   	},
 	plugins: [
-		new CleanWebpackPlugin()
+		new CleanWebpackPlugin(),
+		new MiniCssExtractPlugin()
 	]
 }

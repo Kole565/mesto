@@ -1,3 +1,9 @@
+import './styles/index.css';
+
+import { initialCards } from './cards.js';
+import './validation.js';
+
+
 const cardTemplate = document.querySelector('#card-template').content;
 
 const profilePopup = document.querySelector('.popup_type_edit');
@@ -157,7 +163,7 @@ function deleteCard(cardElement) {
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
 
-placesList = document.querySelector(".places__list")
+const placesList = document.querySelector('.places__list');
 for (let i = 0; i < initialCards.length; i++) {
 	placesList.append(createCard(initialCards[i].name, initialCards[i].link));
 }
