@@ -17,6 +17,15 @@ module.exports = {
 
 		open: false  // Auto opening
 	},
+	module: {
+		rules: [
+			{
+				test: /\.js$/,
+				use: 'babel-loader',
+				exclude: '/node_modules/'
+			}
+		]
+  	},
 	plugins: [
 		new CleanWebpackPlugin()
 	]
