@@ -1,4 +1,5 @@
 const path = require('path');    // Relative paths support
+const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 
 
 module.exports = {
@@ -16,4 +17,7 @@ module.exports = {
 
 		open: false  // Auto opening
 	},
+	plugins: [
+		new CleanWebpackPlugin()
+	]
 }
