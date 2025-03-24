@@ -24,11 +24,16 @@ const imagePopupCaptionElement = imagePopup.querySelector('.popup__caption');
 
 
 function openModal(popup) {
-    popup.classList.add('popup_is-opened');
+	popup.classList.add('popup_is-opened');
+	popup.addEventListener('click', (evt) => {
+		if (evt.target === popup) {
+			closeModal(popup);
+		}
+	});
 }
 
 function closeModal(popup) {
-    popup.classList.remove('popup_is-opened');
+	popup.classList.remove('popup_is-opened');
 }
 
 function updatePopupCloseButton(popup) {
