@@ -30,10 +30,21 @@ function openModal(popup) {
 			closeModal(popup);
 		}
 	});
+
+	document.addEventListener('keydown', closeByEsc);
 }
 
 function closeModal(popup) {
 	popup.classList.remove('popup_is-opened');
+
+	document.removeEventListener('keydown', closeByEsc);
+}
+
+function closeByEsc(evt) {
+	if (evt.key === 'Escape') {
+		const openedPopup = document.querySelector('.popup_is-opened');
+		closeModal(openedPopup);
+	}
 }
 
 function updatePopupCloseButton(popup) {
