@@ -12,4 +12,6 @@
 @import url('../blocks/popup/_is-opened/popup_is-opened.css');
 @import url('../blocks/button/button.css');
 @import url('../blocks/button/_inactive/button_inactive.css');
-
+@import url('../blocks/form/form.css');
+@import url('../blocks/form/__input-error/form__input-error.css');
+@import url('../blocks/form/__input_type/form__input_type_error.css');
