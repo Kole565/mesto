@@ -1,7 +1,8 @@
 import '../styles/index.css';
 
-import { initialCards, createCard } from './card.js';
 import { enableValidation } from './validate.js';
+import { initialCards, createCard } from './card.js';
+import { openModal, closeModal } from './modal.js';
 
 
 const cardTemplate = document.querySelector('#card-template').content;
@@ -28,30 +29,6 @@ const cardURLInput = cardFormElement.querySelector('.popup__input_type_url');
 const imagePopupImageElement = imagePopup.querySelector('.popup__image');
 const imagePopupCaptionElement = imagePopup.querySelector('.popup__caption');
 
-
-function openModal(popup) {
-	popup.classList.add('popup_is-opened');
-	popup.addEventListener('click', (evt) => {
-		if (evt.target === popup) {
-			closeModal(popup);
-		}
-	});
-
-	document.addEventListener('keydown', closeByEsc);
-}
-
-function closeModal(popup) {
-	popup.classList.remove('popup_is-opened');
-
-	document.removeEventListener('keydown', closeByEsc);
-}
-
-function closeByEsc(evt) {
-	if (evt.key === 'Escape') {
-		const openedPopup = document.querySelector('.popup_is-opened');
-		closeModal(openedPopup);
-	}
-}
 
 function updatePopupCloseButton(popup) {
 	const popupCloseButton = popup.querySelector('.popup__close');
