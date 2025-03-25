@@ -116,47 +116,10 @@ function handleCardFormSubmit(evt) {
 	closeModal(cardPopup);
 }
 
-function createCard(cardTitle, cardImageLink) {
-	const cardElement = cardTemplate.querySelector('.card').cloneNode(true);
-
-	const cardTitleElement = cardElement.querySelector('.card__title');
-	const cardImageElement = cardElement.querySelector('.card__image');
-	const cardLikeButtonElement = cardElement.querySelector('.card__like-button');
-	const cardDeleteButtonElement = cardElement.querySelector('.card__delete-button');
-
-	cardTitleElement.textContent = cardTitle;
-	cardImageElement.src = cardImageLink;
-	cardImageElement.alt = cardTitle;
-	cardImageElement.addEventListener('click', function (e) {
-		openModal(imagePopup);
-
-		updatePopupCloseButton(imagePopup);
-
-		fillImagePopup(cardTitle, cardImageLink);
-	});
-
-	cardLikeButtonElement.addEventListener('click', function () {
-		cardLikeButtonElement.classList.toggle('card__like-button_is-active');
-	});
-
-	cardDeleteButtonElement.addEventListener('click', function (e) {
-		const target = e.target;
-		const cardElement = target.closest('.card');
-
-		deleteCard(cardElement);
-	});
-
-	return cardElement;
-}
-
 function fillImagePopup(title, imageLink) {
 	imagePopupImageElement.src = imageLink
 	imagePopupImageElement.alt = title;
 	imagePopupCaptionElement.textContent = title;
-}
-
-function deleteCard(cardElement) {
-	cardElement.remove();
 }
 
 
@@ -165,7 +128,19 @@ cardFormElement.addEventListener('submit', handleCardFormSubmit);
 
 const placesList = document.querySelector('.places__list');
 for (let i = 0; i < initialCards.length; i++) {
-	placesList.append(createCard(initialCards[i].name, initialCards[i].link));
+	const cardTitle = initialCards[i].name;
+	const cardImageLink = initialCards[i].link;
+
+	placesList.append(
+		createCard(
+			cardTemplate, cardTitle, cardImageLink,
+			() => {
+				openModal(imagePopup);
+				updatePopupCloseButton(imagePopup);
+				fillImagePopup(cardTitle, cardImageLink);
+			}
+		)
+	);
 }
 
 const validationSettings = {
