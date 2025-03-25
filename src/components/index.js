@@ -1,7 +1,7 @@
 import '../styles/index.css';
 
-import { initialCards } from './cards.js';
-import './validation.js';
+import { initialCards, createCard } from './card.js';
+import { enableValidation } from './validate.js';
 
 
 const cardTemplate = document.querySelector('#card-template').content;
@@ -167,3 +167,14 @@ const placesList = document.querySelector('.places__list');
 for (let i = 0; i < initialCards.length; i++) {
 	placesList.append(createCard(initialCards[i].name, initialCards[i].link));
 }
+
+const validationSettings = {
+	formSelector: '.popup__form',
+	inputSelector: '.popup__input',
+	submitButtonSelector: '.popup__button',
+	inactiveButtonClass: 'popup__button_disabled',
+	inputErrorClass: 'popup__input_type_error',
+	errorClass: 'popup__error_visible'
+}
+
+enableValidation(validationSettings);
