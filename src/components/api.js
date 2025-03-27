@@ -34,9 +34,9 @@ function getJSON(link) {
 
 function fetchHandler(fetch) {
 	return fetch
-		.then((response) => {
-  			if (response.ok) {
-				return response.json().then((data) => {
+		.then((res) => {
+  			if (res.ok) {
+				return res.json().then((data) => {
 					return data;
 				});
 			}

@@ -3,7 +3,7 @@ import '../styles/index.css';
 import { enableValidation } from './validate.js';
 import { initialCards, createCard } from './card.js';
 import { openModal, closeModal } from './modal.js';
-import { fetchUser, fetchCards } from './api.js';
+import { fetchUser, fetchCards, patchUser } from './api.js';
 
 
 const cardTemplate = document.querySelector('#card-template').content;
@@ -55,7 +55,6 @@ cardAddButton.addEventListener('click', function () {
 	fillCardForm();
 });
 
-
 function fillProfileForm() {
 	const formName = profilePopup.querySelector('.popup__input_type_name');
 	const formDescription = profilePopup.querySelector('.popup__input_type_description');
@@ -70,18 +69,6 @@ function fillCardForm() {
 
 	formName.value = '';
 	formURL.value = '';
-}
-
-function handleProfileFormSubmit(evt) {
-	evt.preventDefault();
-
-	const name = nameInput.value;
-	const job = jobInput.value;
-
-	profileNameElement.textContent = name;
-	profileDescriptionElement.textContent = job;
-
-	closeModal(profilePopup);
 }
 
 function handleCardFormSubmit(evt) {
@@ -101,11 +88,6 @@ function fillImagePopup(title, imageLink) {
 	imagePopupCaptionElement.textContent = title;
 }
 
-
-profileFormElement.addEventListener('submit', handleProfileFormSubmit);
-cardFormElement.addEventListener('submit', handleCardFormSubmit);
-
-
 function fillCards(cards) {
 	for (let i = 0; i < cards.length; i++) {
 		const cardTitle = cards[i].name;
@@ -124,6 +106,37 @@ function fillCards(cards) {
 	}
 }
 
+function refreshUser() {
+	fetchUser()
+		.then((user) => {
+			updateUser(
+				user.name, user.about
+			)
+			return user
+		})
+}
+
+function handleProfileFormSubmit(evt) {
+	evt.preventDefault();
+
+	const name = nameInput.value;
+	const job = jobInput.value;
+
+	updateUser(name, job);
+
+	closeModal(profilePopup);
+}
+
+function updateUser(name, job) {
+	patchUser(name, job)
+		.then((user) => {
+			profileNameElement.textContent = user.name;
+			profileDescriptionElement.textContent = user.about;
+		})
+}
+
+// Initial calls
+
 const validationSettings = {
 	formSelector: '.popup__form',
 	inputSelector: '.popup__input',
@@ -135,11 +148,10 @@ const validationSettings = {
 
 enableValidation(validationSettings);
 
-fetchUser()
-	.then((user) => {
-		profileNameElement.textContent = user.name;
-		profileDescriptionElement.textContent = user.about;
-	})
+profileFormElement.addEventListener('submit', handleProfileFormSubmit);
+cardFormElement.addEventListener('submit', handleCardFormSubmit);
+
+refreshUser()
 
 fetchCards()
 	.then((cards) => {
