@@ -3,6 +3,7 @@ import '../styles/index.css';
 import { enableValidation } from './validate.js';
 import { initialCards, createCard } from './card.js';
 import { openModal, closeModal } from './modal.js';
+import { fetchUser } from './api.js';
 
 
 const cardTemplate = document.querySelector('#card-template').content;
@@ -130,3 +131,9 @@ const validationSettings = {
 }
 
 enableValidation(validationSettings);
+
+fetchUser()
+	.then((user) => {
+		profileNameElement.textContent = user.name;
+		profileDescriptionElement.textContent = user.about;
+	})
