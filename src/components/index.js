@@ -3,7 +3,7 @@ import '../styles/index.css';
 import { enableValidation } from './validate.js';
 import { initialCards, createCard } from './card.js';
 import { openModal, closeModal } from './modal.js';
-import { fetchUser, fetchCards, patchUser } from './api.js';
+import { fetchUser, fetchCards, patchUser, postCard } from './api.js';
 
 
 const cardTemplate = document.querySelector('#card-template').content;
@@ -77,7 +77,17 @@ function handleCardFormSubmit(evt) {
 	const name = cardNameInput.value;
 	const url = cardURLInput.value;
 
-	placesList.prepend(createCard(name, url));
+	const card = createCard(
+		cardTemplate, name, url,
+		() => {
+			openModal(imagePopup);
+			updatePopupCloseButton(imagePopup);
+			fillImagePopup(cardTitle, cardImageLink);
+		}
+	);
+
+	placesList.prepend(card);
+	postCard(name, url);
 
 	closeModal(cardPopup);
 }

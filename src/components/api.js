@@ -22,6 +22,22 @@ export function fetchCards() {
 	return getJSON("/cards");
 }
 
+export function postCard(name, link) {
+	return fetchHandler(
+		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/cards`, {
+			method: 'POST',
+			headers: {
+				authorization: process.env.TOKEN,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				name: name,
+				link: link
+			})
+		})
+	)
+}
+
 function getJSON(link) {
 	return fetchHandler(
 		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}${link}`, {
