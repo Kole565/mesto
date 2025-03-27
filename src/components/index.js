@@ -3,7 +3,7 @@ import '../styles/index.css';
 import { enableValidation } from './validate.js';
 import { initialCards, createCard } from './card.js';
 import { openModal, closeModal } from './modal.js';
-import { fetchUser } from './api.js';
+import { fetchUser, fetchCards } from './api.js';
 
 
 const cardTemplate = document.querySelector('#card-template').content;
@@ -29,6 +29,7 @@ const cardNameInput = cardFormElement.querySelector('.popup__input_type_card-nam
 const cardURLInput = cardFormElement.querySelector('.popup__input_type_url');
 const imagePopupImageElement = imagePopup.querySelector('.popup__image');
 const imagePopupCaptionElement = imagePopup.querySelector('.popup__caption');
+const placesList = document.querySelector('.places__list');
 
 
 function updatePopupCloseButton(popup) {
@@ -104,21 +105,23 @@ function fillImagePopup(title, imageLink) {
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
 
-const placesList = document.querySelector('.places__list');
-for (let i = 0; i < initialCards.length; i++) {
-	const cardTitle = initialCards[i].name;
-	const cardImageLink = initialCards[i].link;
 
-	placesList.append(
-		createCard(
-			cardTemplate, cardTitle, cardImageLink,
-			() => {
-				openModal(imagePopup);
-				updatePopupCloseButton(imagePopup);
-				fillImagePopup(cardTitle, cardImageLink);
-			}
-		)
-	);
+function fillCards(cards) {
+	for (let i = 0; i < cards.length; i++) {
+		const cardTitle = cards[i].name;
+		const cardImageLink = cards[i].link;
+
+		placesList.append(
+			createCard(
+				cardTemplate, cardTitle, cardImageLink,
+				() => {
+					openModal(imagePopup);
+					updatePopupCloseButton(imagePopup);
+					fillImagePopup(cardTitle, cardImageLink);
+				}
+			)
+		);
+	}
 }
 
 const validationSettings = {
@@ -136,4 +139,9 @@ fetchUser()
 	.then((user) => {
 		profileNameElement.textContent = user.name;
 		profileDescriptionElement.textContent = user.about;
+	})
+
+fetchCards()
+	.then((cards) => {
+		fillCards(cards);
 	})

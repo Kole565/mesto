@@ -1,8 +1,12 @@
 export function fetchUser() {
-	return fetchJSON("/users/me");
+	return getJSON("/users/me");
 }
 
-function fetchJSON(link) {
+export function fetchCards() {
+	return getJSON("/cards");
+}
+
+function getJSON(link) {
 	return fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}${link}`, {
 		headers: {
 			authorization: process.env.TOKEN
