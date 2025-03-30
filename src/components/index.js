@@ -3,27 +3,35 @@ import '../styles/index.css';
 import { enableValidation } from './validate.js';
 import { initialCards, createCard } from './card.js';
 import { openModal, closeModal } from './modal.js';
-import { fetchUser, fetchCards, patchUser, postCard } from './api.js';
+import { fetchUser, fetchCards, patchUser, postCard, patchProfile } from './api.js';
 
 
 const cardTemplate = document.querySelector('#card-template').content;
 
 const profilePopup = document.querySelector('.popup_type_edit');
+const profileAvatarPopup = document.querySelector('.popup_type_edit-avatar');
 const cardPopup = document.querySelector('.popup_type_new-card');
 const imagePopup = document.querySelector('.popup_type_image');
 
 profilePopup.classList.add('popup_is-animated');
+profileAvatarPopup.classList.add('popup_is-animated');
 cardPopup.classList.add('popup_is-animated');
 imagePopup.classList.add('popup_is-animated');
 
 const profileOpenButton = document.querySelector('.profile__edit-button');
+const profileEditAvatarButton = document.querySelector('.profile__edit-avatar-button');
 const cardAddButton = document.querySelector('.profile__add-button');
 
 const profileFormElement = profilePopup.querySelector('.popup__form');
 const nameInput = profileFormElement.querySelector('.popup__input_type_name');
 const jobInput = profileFormElement.querySelector('.popup__input_type_description');
 const profileNameElement = document.querySelector('.profile__title');
-const profileDescriptionElement = document.querySelector('.profile__description');
+const profileDescriptionElement = document.querySelector('.profile__image');
+const profileImageElement = document.querySelector('.profile__image');
+
+const profileAvatarFormElement = profileAvatarPopup.querySelector('.popup__form');
+const profileAvatarImageURLInput = profileAvatarFormElement.querySelector('.popup__input_type_url');
+
 const cardFormElement = cardPopup.querySelector('.popup__form');
 const cardNameInput = cardFormElement.querySelector('.popup__input_type_card-name');
 const cardURLInput = cardFormElement.querySelector('.popup__input_type_url');
@@ -47,6 +55,14 @@ profileOpenButton.addEventListener('click', function () {
 	fillProfileForm();
 });
 
+profileEditAvatarButton.addEventListener('click', function () {
+	openModal(profileAvatarPopup);
+
+	updatePopupCloseButton(profileAvatarPopup);
+
+	fillProfileAvatarForm();
+});
+
 cardAddButton.addEventListener('click', function () {
 	openModal(cardPopup);
 
@@ -61,6 +77,12 @@ function fillProfileForm() {
 
 	formName.value = profileNameElement.textContent;
 	formDescription.value = profileDescriptionElement.textContent;
+}
+
+function fillProfileAvatarForm() {
+	const avatarLink = profileAvatarPopup.querySelector('.popup__input_type_url');
+
+	avatarLink.value = profileImageElement.style.src;
 }
 
 function fillCardForm() {
@@ -115,9 +137,10 @@ function fillCards(cards) {
 function refreshUser() {
 	fetchUser()
 		.then((user) => {
-			updateUser(
-				user.name, user.about
-			)
+			profileNameElement.textContent = user.name;
+			profileDescriptionElement.textContent = user.about;
+			profileImageElement.src = user.avatar
+
 			return user
 		})
 }
@@ -131,6 +154,21 @@ function handleProfileFormSubmit(evt) {
 	updateUser(name, job);
 
 	closeModal(profilePopup);
+}
+
+function handleProfileAvatarFormSubmit(evt) {
+	evt.preventDefault();
+
+	const url = profileAvatarImageURLInput.value;
+	console.log(url);
+
+	patchProfile(url)
+		.then((user) => {
+			console.log(profileImageElement)
+			profileImageElement.src = user.avatar
+		})
+
+	closeModal(profileAvatarPopup);
 }
 
 function updateUser(name, job) {
@@ -155,6 +193,7 @@ const validationSettings = {
 enableValidation(validationSettings);
 
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
+profileAvatarFormElement.addEventListener('submit', handleProfileAvatarFormSubmit);
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
 
 refreshUser()

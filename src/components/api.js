@@ -74,6 +74,21 @@ export function deleteLike(cardId) {
 	)
 }
 
+export function patchProfile(link) {
+	return fetchHandler(
+		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/users/me/avatar`, {
+			method: 'PATCH',
+			headers: {
+				authorization: process.env.TOKEN,
+				'Content-Type': 'application/json'
+			},
+			body: JSON.stringify({
+				avatar: link
+			})
+		})
+	)
+}
+
 function getJSON(link) {
 	return fetchHandler(
 		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}${link}`, {
