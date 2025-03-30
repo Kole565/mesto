@@ -99,14 +99,10 @@ function fillImagePopup(title, imageLink) {
 }
 
 function fillCards(cards) {
-	for (let i = 0; i < cards.length; i++) {
-		const cardTitle = cards[i].name;
-		const cardImageLink = cards[i].link;
-		const cardLikeCount = cards[i].likes.length;
-
+	cards.forEach((card) => {
 		placesList.append(
 			createCard(
-				cardTemplate, cardTitle, cardImageLink, cardLikeCount,
+				cardTemplate, card,
 				() => {
 					openModal(imagePopup);
 					updatePopupCloseButton(imagePopup);
@@ -114,7 +110,7 @@ function fillCards(cards) {
 				}
 			)
 		);
-	}
+	})
 }
 
 function refreshUser() {
