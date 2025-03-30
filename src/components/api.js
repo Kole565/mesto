@@ -38,6 +38,18 @@ export function postCard(name, link) {
 	)
 }
 
+export function deleteCard(id) {
+	return fetchHandler(
+		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/cards/${id}`, {
+			method: 'DELETE',
+			headers: {
+				authorization: process.env.TOKEN,
+				'Content-Type': 'application/json'
+			}
+		})
+	)
+}
+
 function getJSON(link) {
 	return fetchHandler(
 		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}${link}`, {

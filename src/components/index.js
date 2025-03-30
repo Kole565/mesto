@@ -77,17 +77,16 @@ function handleCardFormSubmit(evt) {
 	const name = cardNameInput.value;
 	const url = cardURLInput.value;
 
-	const card = createCard(
-		cardTemplate, name, url,
-		() => {
-			openModal(imagePopup);
-			updatePopupCloseButton(imagePopup);
-			fillImagePopup(cardTitle, cardImageLink);
-		}
-	);
+	const card = postCard(name, url)
+		.then((card) => {
+			createCard(cardTemplate, card, () => {
+				openModal(imagePopup);
+				updatePopupCloseButton(imagePopup);
+				fillImagePopup(cardTitle, cardImageLink);
+			})
+		})
 
 	placesList.prepend(card);
-	postCard(name, url);
 
 	closeModal(cardPopup);
 }
@@ -106,7 +105,7 @@ function fillCards(cards) {
 				() => {
 					openModal(imagePopup);
 					updatePopupCloseButton(imagePopup);
-					fillImagePopup(cardTitle, cardImageLink);
+					fillImagePopup(card.title, card.link);
 				}
 			)
 		);
