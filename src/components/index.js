@@ -102,10 +102,11 @@ function fillCards(cards) {
 	for (let i = 0; i < cards.length; i++) {
 		const cardTitle = cards[i].name;
 		const cardImageLink = cards[i].link;
+		const cardLikeCount = cards[i].likes.length;
 
 		placesList.append(
 			createCard(
-				cardTemplate, cardTitle, cardImageLink,
+				cardTemplate, cardTitle, cardImageLink, cardLikeCount,
 				() => {
 					openModal(imagePopup);
 					updatePopupCloseButton(imagePopup);
