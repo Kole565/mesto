@@ -50,6 +50,30 @@ export function deleteCard(id) {
 	)
 }
 
+export function putLike(cardId) {
+	return fetchHandler(
+		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/cards/likes/${cardId}`, {
+			method: 'PUT',
+			headers: {
+				authorization: process.env.TOKEN,
+				'Content-Type': 'application/json'
+			}
+		})
+	)
+}
+
+export function deleteLike(cardId) {
+	return fetchHandler(
+		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/cards/likes/${cardId}`, {
+			method: 'DELETE',
+			headers: {
+				authorization: process.env.TOKEN,
+				'Content-Type': 'application/json'
+			}
+		})
+	)
+}
+
 function getJSON(link) {
 	return fetchHandler(
 		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}${link}`, {
