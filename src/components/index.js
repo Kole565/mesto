@@ -153,7 +153,14 @@ function handleProfileFormSubmit(evt) {
 	const name = nameInput.value;
 	const job = jobInput.value;
 
-	updateUser(name, job);
+	const buttonElement = profileAvatarFormElement.querySelector('.popup__button')
+
+	updateUser(name, job)
+		.finally(() => {
+			buttonElement.textContent = 'Сохранить'
+		})
+
+	buttonElement.textContent = 'Сохранение...'
 
 	closeModal(profilePopup);
 }
@@ -178,7 +185,7 @@ function handleProfileAvatarFormSubmit(evt) {
 }
 
 function updateUser(name, job) {
-	patchUser(name, job)
+	return patchUser(name, job)
 		.then((user) => {
 			profileNameElement.textContent = user.name;
 			profileDescriptionElement.textContent = user.about;
