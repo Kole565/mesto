@@ -5,7 +5,7 @@
 	opacity: 0;
 	width: 120px;
 	height: 120px;
-	border: 1px solid red;
+
 	cursor: pointer;
 	-webkit-transition: 0.3s;
 	-moz-transition: 0.3s;
