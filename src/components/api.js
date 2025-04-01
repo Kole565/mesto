@@ -103,5 +103,6 @@ function fetchHandler(fetch) {
 		})
 		.catch((err) => {
 			console.log(err);
+			throw err;
 		}); 
 }
