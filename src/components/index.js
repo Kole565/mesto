@@ -162,13 +162,17 @@ function handleProfileAvatarFormSubmit(evt) {
 	evt.preventDefault();
 
 	const url = profileAvatarImageURLInput.value;
-	console.log(url);
+	const buttonElement = profileAvatarFormElement.querySelector('.popup__button')
 
 	patchProfile(url)
 		.then((user) => {
-			console.log(profileImageElement)
 			profileImageElement.src = user.avatar
 		})
+		.finally(() => {
+			buttonElement.textContent = 'Сохранить'
+		})
+	
+	buttonElement.textContent = 'Сохранение...'
 
 	closeModal(profileAvatarPopup);
 }
