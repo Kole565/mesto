@@ -39,6 +39,8 @@ const imagePopupImageElement = imagePopup.querySelector('.popup__image');
 const imagePopupCaptionElement = imagePopup.querySelector('.popup__caption');
 const placesList = document.querySelector('.places__list');
 
+export let userId = undefined;
+
 
 function updatePopupCloseButton(popup) {
 	const popupCloseButton = popup.querySelector('.popup__close');
@@ -101,11 +103,7 @@ function handleCardFormSubmit(evt) {
 
 	const card = postCard(name, url)
 		.then((card) => {
-			createCard(cardTemplate, card, () => {
-				openModal(imagePopup);
-				updatePopupCloseButton(imagePopup);
-				fillImagePopup(cardTitle, cardImageLink);
-			})
+			createCardElement(card)
 		})
 
 	placesList.prepend(card);
@@ -122,20 +120,24 @@ function fillImagePopup(title, imageLink) {
 function fillCards(cards) {
 	cards.forEach((card) => {
 		placesList.append(
-			createCard(
-				cardTemplate, card,
-				() => {
-					openModal(imagePopup);
-					updatePopupCloseButton(imagePopup);
-					fillImagePopup(card.title, card.link);
-				}
-			)
+			createCardElement(card)
 		);
 	})
 }
 
+function createCardElement(card) {
+	return createCard(
+		cardTemplate, card, userId,
+		() => {
+			openModal(imagePopup);
+			updatePopupCloseButton(imagePopup);
+			fillImagePopup(card.title, card.link);
+		}
+	)
+}
+
 function refreshUser() {
-	fetchUser()
+	return fetchUser()
 		.then((user) => {
 			profileNameElement.textContent = user.name;
 			profileDescriptionElement.textContent = user.about;
@@ -181,6 +183,17 @@ function updateUser(name, job) {
 
 // Initial calls
 
+refreshUser()
+	.then((user) => {
+		userId = user._id
+	})
+	.then((res) => {
+		fetchCards()
+			.then((cards) => {
+				fillCards(cards);
+			})
+	})
+
 const validationSettings = {
 	formSelector: '.popup__form',
 	inputSelector: '.popup__input',
@@ -195,10 +208,3 @@ enableValidation(validationSettings);
 profileFormElement.addEventListener('submit', handleProfileFormSubmit);
 profileAvatarFormElement.addEventListener('submit', handleProfileAvatarFormSubmit);
 cardFormElement.addEventListener('submit', handleCardFormSubmit);
-
-refreshUser()
-
-fetchCards()
-	.then((cards) => {
-		fillCards(cards);
-	})

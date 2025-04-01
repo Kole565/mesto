@@ -1,7 +1,7 @@
 import { deleteCard, putLike, deleteLike } from './api.js'
 
 
-export function createCard(template, card, onClickCallback) {
+export function createCard(template, card, userId, onClickCallback) {
 	const cardElement = template.querySelector('.card').cloneNode(true);
 
 	const cardTitleElement = cardElement.querySelector('.card__title');
@@ -15,7 +15,9 @@ export function createCard(template, card, onClickCallback) {
 	cardImageElement.alt = card.name;
 	cardImageElement.addEventListener('click', onClickCallback)
 
-	// ID don't match, so there is no checking first state of like button
+	if (card.likes.map(el => el['_id']).includes(userId)) {
+		cardLikeButtonElement.classList.add('card__like-button_is-active');
+	}
 
 	cardLikeButtonElement.addEventListener('click', function () {
 		if (cardLikeButtonElement.classList.contains('card__like-button_is-active')) {
@@ -44,8 +46,8 @@ export function createCard(template, card, onClickCallback) {
 		cardElement.remove();
 	});
 
-	if (card.owner._id !== process.env.TOKEN) {
-		// cardDeleteButtonElement.style.display = "none" // ID don't equate for some reason
+	if (card.owner._id !== userId) {
+		cardDeleteButtonElement.style.display = "none" // ID don't equate for some reason
 	}
 
 	return cardElement;
