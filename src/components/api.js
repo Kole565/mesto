@@ -1,15 +1,21 @@
+const config = {
+	baseUrl: `${process.env.BASE_URL}${process.env.GROUP_ID}`,
+	headers: {
+		authorization: process.env.TOKEN,
+		'Content-Type': 'application/json'
+	}
+}
+
+
 export function fetchUser() {
 	return getJSON("/users/me");
 }
 
 export function patchUser(name, description) {
 	return fetchHandler(
-		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/users/me`, {
+		fetch(`${config.baseUrl}/users/me`, {
 			method: 'PATCH',
-			headers: {
-				authorization: process.env.TOKEN,
-				'Content-Type': 'application/json'
-			},
+			headers: config.headers,
 			body: JSON.stringify({
 				name: name,
 				about: description
@@ -24,12 +30,9 @@ export function fetchCards() {
 
 export function postCard(name, link) {
 	return fetchHandler(
-		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/cards`, {
+		fetch(`${config.baseUrl}/cards`, {
 			method: 'POST',
-			headers: {
-				authorization: process.env.TOKEN,
-				'Content-Type': 'application/json'
-			},
+			headers: config.headers,
 			body: JSON.stringify({
 				name: name,
 				link: link
@@ -40,48 +43,36 @@ export function postCard(name, link) {
 
 export function deleteCard(id) {
 	return fetchHandler(
-		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/cards/${id}`, {
+		fetch(`${config.baseUrl}/cards/${id}`, {
 			method: 'DELETE',
-			headers: {
-				authorization: process.env.TOKEN,
-				'Content-Type': 'application/json'
-			}
+			headers: config.headers
 		})
 	)
 }
 
 export function putLike(cardId) {
 	return fetchHandler(
-		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/cards/likes/${cardId}`, {
+		fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
 			method: 'PUT',
-			headers: {
-				authorization: process.env.TOKEN,
-				'Content-Type': 'application/json'
-			}
+			headers: config.headers
 		})
 	)
 }
 
 export function deleteLike(cardId) {
 	return fetchHandler(
-		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/cards/likes/${cardId}`, {
+		fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
 			method: 'DELETE',
-			headers: {
-				authorization: process.env.TOKEN,
-				'Content-Type': 'application/json'
-			}
+			headers: config.headers
 		})
 	)
 }
 
 export function patchProfile(link) {
 	return fetchHandler(
-		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}/users/me/avatar`, {
+		fetch(`${config.baseUrl}/users/me/avatar`, {
 			method: 'PATCH',
-			headers: {
-				authorization: process.env.TOKEN,
-				'Content-Type': 'application/json'
-			},
+			headers: config.headers,
 			body: JSON.stringify({
 				avatar: link
 			})
@@ -91,7 +82,7 @@ export function patchProfile(link) {
 
 function getJSON(link) {
 	return fetchHandler(
-		fetch(`${process.env.BASE_URL}${process.env.GROUP_ID}${link}`, {
+		fetch(`${config.baseUrl}${link}`, {
 			headers: {
 				authorization: process.env.TOKEN
 			}
@@ -110,4 +101,7 @@ function fetchHandler(fetch) {
 
 			return Promise.reject(`Ошибка: ${res.status}`);
 		})
+		.catch((err) => {
+			console.log(err);
+		}); 
 }
