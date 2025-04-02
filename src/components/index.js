@@ -39,7 +39,7 @@ const imagePopupImageElement = imagePopup.querySelector('.popup__image');
 const imagePopupCaptionElement = imagePopup.querySelector('.popup__caption');
 const placesList = document.querySelector('.places__list');
 
-export let userId = undefined;
+let userId = undefined;
 
 
 function updatePopupCloseButton(popup) {
@@ -194,15 +194,10 @@ function updateUser(name, job) {
 
 // Initial calls
 
-refreshUser()
-	.then((user) => {
-		userId = user._id
-	})
-	.then((res) => {
-		fetchCards()
-			.then((cards) => {
-				fillCards(cards);
-			})
+Promise.all([fetchCards(), refreshUser()])
+	.then((cards_and_user) => {
+		userId = cards_and_user[1]._id;
+		fillCards(cards_and_user[0]);
 	})
 
 const validationSettings = {
